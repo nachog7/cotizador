@@ -57,7 +57,7 @@ const getCryptoQuotes = () => {
     fetch(`${baseUrl}/${crypto}/${fiat}/${volumen}`)
       .then((response) => response.json())
       .then((datos) => {
-        let { letsbit, fiwind, buenbit, trubit, bitso } = datos;
+        let { letsbit, fiwind, buenbit, trubit, bitsoalpha } = datos;
         cryptoQuotes.innerHTML = `
             <div class="col-md-4 mt-3">
                 <div class="card">
@@ -111,10 +111,10 @@ const getCryptoQuotes = () => {
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-body-secondary">Bitso</h6>
-                        <p class="card-text">Venta: $${bitso?.totalAsk ?? "-"}</p>
-                        <p class="card-text">Compra: $${bitso?.totalBid ?? "-"}</p>
+                        <p class="card-text">Venta: $${bitsoalpha?.totalAsk ?? "-"}</p>
+                        <p class="card-text">Compra: $${bitsoalpha?.totalBid ?? "-"}</p>
                         <p class="card-text">Últ. actualización: ${
-                          bitso?.time ? new Date(bitso?.time * 1000).toLocaleTimeString() : "-"
+                          bitsoalpha?.time ? new Date(bitsoalpha?.time * 1000).toLocaleTimeString() : "-"
                         }</p>
                     </div>
                 </div>
