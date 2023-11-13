@@ -15,30 +15,38 @@
   </head>
   <body>
     <div class="container-fluid">
-        <h1 class="text-center m-5 titulo-p">Cotizador</h1>
-        <div class="row mt-1" id="dollar-quotes"></div>
-        <div class="row mt-3">
-            <div class="col-lg-6">
-            <!-- Crypto selector -->
-            <select class="form-select mt-3" id="crypto-selector">
-                <option selected value="">Cripto</option>
-                <option value="USDC">USDC</option>
-                <option value="USDT">USDT</option>
-                <option value="ETH">ETH</option>
-                <option value="BTC">BTC</option>
-            </select>
-            </div>
-            <!-- Fiat selector -->
-            <div class="col-lg-6">
-            <select class="form-select mt-3" id="fiat-selector">
-                <option selected value="">Fiat</option>
-                <option value="ARS">ARS</option>
-                <option value="USD">USD</option>
-            </select>
-            </div>
-            </div>
-        <div class="row mt-3" id="crypto-quotes"></div>
+      <div class="row mt-1" id="dollar-quotes"></div>
+      <div class="row mt-3">
+        <div class="col-lg-6">
+          <button id="refresh-quotes" type="button" class="btn btn-primary btn-sm">Actualizar</button>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-12 col-sm-6 col-md-3 mt-3">
+          <h5>Cripto</h5>
+          <div class="btn-group" id="crypto-selector" role="group" aria-label="Crypto selector">
+            <input type="radio" class="btn-check" name="btn-crypto" id="btn-usdc" value="usdc" autocomplete="off" />
+            <label class="btn btn-outline-primary" for="btn-usdc">USDC</label>
+            <input type="radio" class="btn-check" name="btn-crypto" id="btn-usdt" value="usdt" autocomplete="off" />
+            <label class="btn btn-outline-primary" for="btn-usdt">USDT</label>
+            <input type="radio" class="btn-check" name="btn-crypto" id="btn-eth" value="eth" autocomplete="off" />
+            <label class="btn btn-outline-primary" for="btn-eth">ETH</label>
+            <input type="radio" class="btn-check" name="btn-crypto" id="btn-btc" value="btc" autocomplete="off" />
+            <label class="btn btn-outline-primary" for="btn-btc">BTC</label>
+          </div>
+        </div>
+        <!-- Fiat selector -->
+        <div class="col-12 col-sm-6 col-md-3 mt-3">
+          <h5>Fiat</h5>
+          <div class="btn-group" id="fiat-selector" role="group" aria-label="Fiat selector">
+            <input type="radio" class="btn-check" name="btn-fiat" id="btn-ars" value="ars" autocomplete="off" />
+            <label class="btn btn-outline-primary" for="btn-ars">ARS</label>
+            <input type="radio" class="btn-check" name="btn-fiat" id="btn-usd" value="usd" autocomplete="off" />
+            <label class="btn btn-outline-primary" for="btn-usd">USD</label>
+          </div>
+        </div>
       </div>
+      <div class="w-100"></div>
+      <div class="row mt-3" id="crypto-quotes"></div>
     </div>
     <!-- bootstrap -->
     <script
