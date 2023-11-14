@@ -66,7 +66,7 @@ const getCryptoQuotes = () => {
     trubit: "Trubit",
     bitsoalpha: "Bitso",
     binancep2p: "Binance P2P",
-    ripioexchange: "Ripio Exchange",
+    ripioexchange: "Ripio Trade",
   };
   const FIAT_SYMBOLS = {
     usd: "U$S",
