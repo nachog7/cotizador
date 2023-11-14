@@ -53,33 +53,61 @@ const getDollarQuotes = () => {
     });
 };
 
+const isntZero = (element) => {
+  return element > 0;
+};
+
 const getCryptoQuotes = () => {
-  let volumen = 1;
-  let exchanges = {
-    "Let's bit": "letsbit",
-    Fiwind: "fiwind",
-    Buenbit: "buenbit",
-    Trubit: "trubit",
-    Bitso: "bitsoalpha",
-    "Binance P2P": "binancep2p",
-    "Ripio Exchange": "ripioexchange",
+  const VOLUME = 1;
+  const EXCHANGES = {
+    letsbit: "Let's bit",
+    fiwind: "Fiwind",
+    buenbit: "Buenbit",
+    trubit: "Trubit",
+    bitsoalpha: "Bitso",
+    binancep2p: "Binance P2P",
+    ripioexchange: "Ripio Exchange",
+  };
+  const FIAT_SYMBOLS = {
+    usd: "U$S",
+    ars: "$",
   };
   if (crypto && fiat) {
     cryptoQuotes.innerHTML = "";
-    fetch(`${baseUrl}/${crypto}/${fiat}/${volumen}`)
+    fetch(`${baseUrl}/${crypto}/${fiat}/${VOLUME}`)
       .then((response) => response.json())
       .then((data) => {
-        Object.entries(exchanges).forEach(([key, value]) => {
+        const filteredData = Object.fromEntries(
+          Object.entries(data).filter(
+            ([exchange, { totalAsk }]) => Object.keys(EXCHANGES).includes(exchange) && isntZero(totalAsk)
+          )
+        );
+        const sortedByAsk = Object.entries(filteredData).map(([exchange, data]) => ({ exchange, ...data }));
+        const highestBidExchange = [...sortedByAsk].sort((a, b) => a.totalBid - b.totalBid).pop().exchange;
+        sortedByAsk.sort((a, b) => a.totalAsk - b.totalAsk);
+        sortedByAsk.forEach((element, index) => {
           const div = document.createElement("div");
           div.classList.add("col-sm-6", "col-md-3", "col-lg-2", "mt-3");
           div.innerHTML = `
-            <div class="card text-bg-light">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-body-secondary">${key}</h6>
-                    <p class="card-text">Venta: $${data[value]?.totalAsk ?? "-"}</p>
-                    <p class="card-text">Compra: $${data[value]?.totalBid ?? "-"}</p>
+            <div class="card d-flex flex-column h-100 text-bg-light ${
+              highestBidExchange === element.exchange && "border-danger"
+            } ${!index && "border-success"} ">
+                <div class="card-body d-flex flex-column flex-grow-1">
+                    <div>
+                        <h6 class="card-title">${EXCHANGES[element.exchange]}</h6>
+                        <div class="mb-2">
+                            ${index ? "" : '<h6 class="card-subtitle mb-2 text-success">Mejor precio venta</h6>'}
+                            ${
+                              highestBidExchange === element.exchange
+                                ? '<h6 class="card-subtitle mb-2 text-danger">Mejor precio compra</h6>'
+                                : ""
+                            }
+                        </div>
+                    </div>
+                    <p class="card-text">Venta: ${FIAT_SYMBOLS[fiat]} ${element?.totalAsk ?? "-"}</p>
+                    <p class="card-text">Compra: ${FIAT_SYMBOLS[fiat]} ${element?.totalBid ?? "-"}</p>
                     <p class="card-text">Últ. actualización: ${
-                      data[value]?.time ? new Date(data[value]?.time * 1000).toLocaleTimeString() : "-"
+                      element?.time ? new Date(element?.time * 1000).toLocaleTimeString() : "-"
                     }</p>
                 </div>
             </div>`;
